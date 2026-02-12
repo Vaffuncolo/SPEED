@@ -1,6 +1,3 @@
--- Main Menu Loader for Roblox Scripts
--- Mini-Bar now preserves position based on MainFrame (no reset to center)
-
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -123,24 +120,24 @@ local function createMainMenu()
 end
 
 -- -------------------------------------------------------------------------
--- Mini-Bar: 132×44, drag area ~30-35 units center
+-- Mini-Bar (132×44) - drag area ≈ button size (~32 units center)
 -- -------------------------------------------------------------------------
 local function createMiniBar()
     if miniBar then miniBar:Destroy() end
 
-    -- نأخذ آخر مكان للقائمة الكبيرة ونعدله شوية عشان الـ Mini-Bar ما تتداخلش
+    -- نأخذ مكان القائمة الكبيرة الحالي ونعدله بسيطاً
     local mainPos = menuElements.MainFrame.Position
     local miniPos = UDim2.new(
         mainPos.X.Scale,
-        mainPos.X.Offset + 50,  -- شوية يمين عشان ما تتغطاش
+        mainPos.X.Offset + 40,   -- شوية يمين
         mainPos.Y.Scale,
-        mainPos.Y.Offset - 30   -- شوية فوق عشان تبان
+        mainPos.Y.Offset - 20    -- شوية فوق عشان تبان
     )
 
     miniBar = Instance.new("Frame")
     miniBar.Name = "MiniBar"
     miniBar.Size = UDim2.new(0, 132, 0, 44)
-    miniBar.Position = miniPos   -- يحتفظ بمكان القائمة الكبيرة (مع تعديل بسيط)
+    miniBar.Position = miniPos
     miniBar.BackgroundColor3 = Color3.fromRGB(28, 28, 44)
     miniBar.BackgroundTransparency = 0.3
     miniBar.BorderSizePixel = 0
@@ -180,7 +177,7 @@ local function createMiniBar()
     miniCloseCorner.CornerRadius = UDim.new(0, 10)
     miniCloseCorner.Parent = miniClose
 
-    -- مساحة السحب في الوسط (نفس حجم الأزرار تقريباً)
+    -- مساحة السحب في الوسط ≈ حجم الزر (~32)
     local dragArea = Instance.new("Frame")
     dragArea.Size = UDim2.new(0, 32, 1, 0)
     dragArea.Position = UDim2.new(0.5, -16, 0, 0)
@@ -217,7 +214,6 @@ local function createMiniBar()
         end
     end)
 
-    -- أحداث الأزرار
     miniClose.MouseButton1Click:Connect(function()
         if miniBar then miniBar:Destroy() end
         if mainScreenGui then mainScreenGui:Destroy() end
@@ -232,22 +228,179 @@ local function createMiniBar()
 end
 
 -- -------------------------------------------------------------------------
--- Scripts list (نفس الأصلي)
+-- Scripts list
 -- -------------------------------------------------------------------------
 local Scripts = {
-    {Name = "1 - 99 night in the forest", Run = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/Rx1m/CpsHub/refs/heads/main/Hub", true))() end},
-    {Name = "2 - Jump & Teleport", Run = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/Vaffuncolo/MobileTPnJump/main/MobileTPnJump.lua"))() end},
-    {Name = "3 - Escape Tsunami For Brainrots", Run = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/Ratkinator/RatX/refs/heads/main/Loader.lua", true))() end},
-    {Name = "4 - Farming BRAINROT evolution", Run = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/ywxoofc/LoaderNew/refs/heads/main/loader.lua"))() end},
-    {Name = "5 - JinHub BRAINROT evolution", Run = function() loadstring(game:HttpGet("https://jinhub.my.id/scripts/BrainrotEvolution.lua"))() end},
-    {Name = "6 - Speed Hack", Run = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/Vaffuncolo/SPEED/main/Speed.lua"))() end},
-    {Name = "7 - NoClip (Toggle + Close)", Run = function()
-        -- كود NoClip هنا إذا أردت
-        print("NoClip would run here")
-    end}
+    {
+        Name = "1 - 99 night in the forest",
+        Run = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Rx1m/CpsHub/refs/heads/main/Hub", true))()
+        end
+    },
+    {
+        Name = "2 - Jump & Teleport",
+        Run = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Vaffuncolo/SPEED/main/TPnJump.lua"))()
+        end
+    },
+    {
+        Name = "3 - Escape Tsunami For Brainrots",
+        Run = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Ratkinator/RatX/refs/heads/main/Loader.lua", true))()
+        end
+    },
+    {
+        Name = "4 - Farming BRAINROT evolution",
+        Run = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/ywxoofc/LoaderNew/refs/heads/main/loader.lua"))()
+        end
+    },
+    {
+        Name = "5 - JinHub BRAINROT evolution",
+        Run = function()
+            loadstring(game:HttpGet("https://jinhub.my.id/scripts/BrainrotEvolution.lua"))()
+        end
+    },
+    {
+        Name = "6 - Speed Hack",
+        Run = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Vaffuncolo/SPEED/main/Speed.lua"))()
+        end
+    },
+    {
+        Name = "7 - NoClip (Toggle + Close)",
+        Run = function()
+            -- NoClip code (simple version as before)
+            local noclipScript = [[
+-- NoClip Toggle with GUI
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+local noclipEnabled = false
+local connection = nil
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "NoClipGUI"
+screenGui.Parent = PlayerGui
+screenGui.ResetOnSpawn = false
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 120, 0, 44)
+mainFrame.Position = UDim2.new(0.5, -60, 0.2, -22)
+mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 12)
+corner.Parent = mainFrame
+
+local toggleBtn = Instance.new("TextButton")
+toggleBtn.Size = UDim2.new(0, 70, 0, 32)
+toggleBtn.Position = UDim2.new(0, 6, 0.5, -16)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(60, 140, 80)
+toggleBtn.Text = "OFF"
+toggleBtn.TextColor3 = Color3.new(1,1,1)
+toggleBtn.Font = Enum.Font.GothamBold
+toggleBtn.TextSize = 16
+toggleBtn.Parent = mainFrame
+
+local toggleCorner = Instance.new("UICorner")
+toggleCorner.CornerRadius = UDim.new(0, 10)
+toggleCorner.Parent = toggleBtn
+
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 32, 0, 32)
+closeBtn.Position = UDim2.new(1, -38, 0.5, -16)
+closeBtn.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.new(1,1,1)
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 18
+closeBtn.Parent = mainFrame
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 10)
+closeCorner.Parent = closeBtn
+
+local function toggleNoclip(state)
+    noclipEnabled = state
+    if state then
+        if connection then connection:Disconnect() end
+        connection = RunService.Stepped:Connect(function()
+            if LocalPlayer.Character then
+                for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = false
+                    end
+                end
+            end
+        end)
+        toggleBtn.Text = "ON"
+        toggleBtn.BackgroundColor3 = Color3.fromRGB(200, 70, 70)
+    else
+        if connection then
+            connection:Disconnect()
+            connection = nil
+        end
+        toggleBtn.Text = "OFF"
+        toggleBtn.BackgroundColor3 = Color3.fromRGB(60, 140, 80)
+    end
+end
+
+toggleBtn.MouseButton1Click:Connect(function()
+    toggleNoclip(not noclipEnabled)
+end)
+
+closeBtn.MouseButton1Click:Connect(function()
+    toggleNoclip(false)
+    screenGui:Destroy()
+end)
+
+LocalPlayer.CharacterAdded:Connect(function()
+    if noclipEnabled then
+        toggleNoclip(false)
+        task.wait(0.5)
+        toggleNoclip(true)
+    end
+end)
+
+local dragging, dragInput, dragStart, startPos
+mainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+mainFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragging and input == dragInput then
+        local delta = input.Position - dragStart
+        mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+]]
+            loadstring(noclipScript)()
+        end
+    }
 }
 
--- Initialize
+-- Initialize menu
 menuElements = createMainMenu()
 
 for _, scriptData in ipairs(Scripts) do
@@ -304,3 +457,5 @@ UserInputService.InputChanged:Connect(function(input)
         menuElements.MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
 end)
+
+
