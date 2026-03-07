@@ -260,16 +260,7 @@ end
 Name="8 - Anti AFK",
 Run=function()
 
-local VirtualUser=game:GetService("VirtualUser")
-
-LocalPlayer.Idled:Connect(function()
-VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-task.wait(1)
-VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-end)
-
-print("Anti AFK Enabled")
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Vaffuncolo/SPEED/main/AFK.lua"))()
 end
 },
 
