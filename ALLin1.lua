@@ -276,6 +276,12 @@ Name="10 - BreakyouBones",
 Run=function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/main/BreakyourBones"))()
 end
+},
+
+{
+Name="11 - Flying boot/wing race",
+loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/main/FlyingWings"))()
+end
 }
 
 }
