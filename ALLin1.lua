@@ -272,14 +272,14 @@ end
 },
 
 {
-Name="10 - BreakyouBones",
+Name="10 - Break your Bones",
 Run=function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/main/BreakyourBones"))()
 end
 },
 
 {
-Name="11 - Flying boot/wing race",
+Name="11 - Flying boot wing race",
 loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/main/FlyingWings"))()
 end
 }
