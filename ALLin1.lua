@@ -279,10 +279,11 @@ end
 },
 
 {
-Name = "11 - Flying boot wing race",
-Run = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/main/FlyingWings"))()
+Name="11 - Flying boot/wing",
+Run=function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/main/FlyingWings"))()
 end
-}
+},
 
 }
 
